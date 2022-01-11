@@ -10,3 +10,11 @@ fn main() {
 }
 
 //  Compile this program using rustc and run the executable. Rust is an ahead-of-time compiled language like C, C++.
+
+//  <-- These are comments btw
+/*
+    They can
+    also
+    be
+    multi-line
+*/

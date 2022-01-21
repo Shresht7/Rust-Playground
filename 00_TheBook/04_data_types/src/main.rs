@@ -1,4 +1,4 @@
-//  This wierd syntax disables `dead_code` and `usused_variables` warnings.
+//  This weird syntax disables `dead_code` and `unused_variables` warnings.
 #[allow(dead_code)]
 #[allow(unused_variables)]
 fn main() {
@@ -69,7 +69,7 @@ fn main() {
     //  TUPLE
     //  -----
 
-    //  A tuple is a general way of grouping together a number of values with a variety of types into one compund type.
+    //  A tuple is a general way of grouping together a number of values with a variety of types into one compound type.
     //  Tuples have fixed length.
     let tup: (i32, f64, u8) = (500, 6.4, 1);
     let (x, y, z) = tup; //  <--- 🎉 Destructuring!

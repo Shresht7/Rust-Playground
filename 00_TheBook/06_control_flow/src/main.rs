@@ -10,7 +10,7 @@ fn main() {
         //  This branch (or arm) is executed if the condition evaluates to true
         println!("Let's Go!");
     } else {
-        //  Elsewise, this branch (or arm) is executed
+        //  Otherwise, this branch (or arm) is executed
         println!("Oh noooo!");
     }
 

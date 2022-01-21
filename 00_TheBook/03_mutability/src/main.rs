@@ -9,9 +9,9 @@ fn main() {
     x = 6;
     println!("The value of x is {}", x);
 
-    //  constants are delcared using the `const` keyword and require type annotations. conventionally named like `I_AM_A_CONSTANT`
+    //  constants are declared using the `const` keyword and require type annotations. conventionally named like `I_AM_A_CONSTANT`
     //  You can use `mut` with  constants. They're always immutable.
-    //  Contants can only be assigned to a constant expression, not result of some runtime calculation.
+    //  Constants can only be assigned to a constant expression, not result of some runtime calculation.
     //  Constants are valid for the entire time a program runs, within the scope they're declared in. They can be declared globally.
     const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
     println!(
@@ -21,7 +21,7 @@ fn main() {
 
     //  You can declare a new variable with the same name as another. This is called shadowing.
     //  Rust will refer to the new variable here on out. The new variable shadows the original.
-    //  Redeclaring with `let` allows you to shadow instead of reassigning values
+    //  Re-declaring with `let` allows you to shadow instead of reassigning values
     let x = 7; //  Creates a new variable with the same name x that shadows the previous x and has a value of 7
     println!("The value of x is {}", x);
     //  x will continue to shadow as long as it is in scope.

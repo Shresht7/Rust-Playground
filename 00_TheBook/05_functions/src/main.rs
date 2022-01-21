@@ -5,8 +5,8 @@ fn say_hello() {
     println!("Hello!");
 }
 
-//  Functions can also be delcared to accept parameters
-//  Note that both paramters have type anotations.
+//  Functions can also be declared to accept parameters
+//  Note that both parameters have type annotations.
 //  -> marks the return type of the function
 fn add(x: i32, y: i32) -> i32 {
     return x + y;
@@ -21,7 +21,7 @@ fn main() {
     //  Statements vs Expressions
     //  -------------------------
 
-    // Function bodis are made up of a series of statements optionally ending in an expression.
+    // Function bodies are made up of a series of statements optionally ending in an expression.
     // Statements are instructions that perform some action and do not return a value.
     // Expressions on the other hand evaluate to a resulting value
 

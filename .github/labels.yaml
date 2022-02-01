@@ -1,167 +1,167 @@
 - name: bug
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix
-  color: ffffff
+  color: fffffb
   description: This will not be worked on
 
 - name: bug1
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation1
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate1
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement1
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue1
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted1
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid1
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question1
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix1
-  color: ffffff
+  color: fffffb
   description: This will not be worked on
 
 - name: bug2
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation2
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate2
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement2
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue2
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted2
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid2
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question2
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix2
-  color: ffffff
+  color: fffffb
   description: This will not be worked on
 
 - name: bug3
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation3
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate3
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement3
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue3
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted3
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid3
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question3
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix3
-  color: ffffff
+  color: fffffb
   description: This will not be worked on
 
 - name: bug4
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation4
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate4
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement4
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue4
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted4
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid4
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question4
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix4
-  color: ffffff
+  color: fffffb
   description: This will not be worked on
 
 - name: bug5
-  color: d73a4a
+  color: d73a4b
   description: Something isn't working
 - name: documentation5
-  color: 0075ca
+  color: 0075cb
   description: Improvements or additions to documentation
 - name: duplicate5
-  color: cfd3d7
+  color: cfd3db
   description: This issue or pull request already exists
 - name: enhancement5
-  color: a2eeef
+  color: a2eeeb
   description: New feature or request
 - name: good first issue5
-  color: 7057ff
+  color: 7057fb
   description: Good for newcomers
 - name: help wanted5
-  color: "008672"
+  color: "00867b"
   description: Extra attention is needed
 - name: invalid5
-  color: e4e669
+  color: e4e66b
   description: This doesn't seem right
 - name: question5
-  color: d876e3
+  color: d876eb
   description: Further information is requested
 - name: wontfix5
-  color: ffffff
+  color: fffffb
   description: This will not be worked on

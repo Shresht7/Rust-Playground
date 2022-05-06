@@ -10,7 +10,7 @@ fn main() {
     println!("The value of x is {}", x);
 
     //  constants are declared using the `const` keyword and require type annotations. conventionally named like `I_AM_A_CONSTANT`
-    //  You can use `mut` with  constants. They're always immutable.
+    //  You can't use `mut` with  constants. They're always immutable.
     //  Constants can only be assigned to a constant expression, not result of some runtime calculation.
     //  Constants are valid for the entire time a program runs, within the scope they're declared in. They can be declared globally.
     const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;

@@ -28,7 +28,7 @@ fn main() {
         println!("number is not divisible by 4, 3, or 2");
     }
 
-    //  If is an expression!
+    //  If is an expression! There is not ternary operator in Rust
     let condition = true;
     let value = if condition { 10 } else { 0 };
     println!("The value is {}", value);

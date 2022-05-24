@@ -2,8 +2,8 @@
 // `main` is a special function that is always the first to run when rust programs are executed
 fn main() {
     //  Prints the string to the screen.
-    //  `println!` looks like a function but is actually a macro (as signified by the !). More on macros later.
-    //  Note that semi-colons mark the end of statements and are required.
+    //  `println!` looks like a function but is actually a macro (note the !). More on macros later.
+    //  Semi-colons mark the end of statements and are required.
     println!("Hello World");
 }
 

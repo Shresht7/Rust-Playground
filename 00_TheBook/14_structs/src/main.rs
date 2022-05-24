@@ -2,7 +2,7 @@
 //  values that make up a meaningful group. A struct is like an object's data attributes.
 
 //  Struts are similar to tuples, the pieces of structs can be different types. Unlike tuples, you'll name
-//  each piece of data so it's clear what the values mean. As a result, structs are more flexible than structs
+//  each piece of data so it's clear what the values mean. As a result, structs are more flexible than tuples
 //  you don't have to rely on the order of the data to specify or access the values of an instance
 
 #[allow(dead_code)]
@@ -137,7 +137,7 @@ impl Rectangle {
     fn can_hold(&self, r: &Rectangle) -> bool {
         self.width > r.width && self.height > r.height
     }
-    
+
     //  All functions in the impl block are called associated functions because they're associated with the type named after the impl.
     //  We can define associated functions that don't have self as their first parameter (and thus are not methods) e.g String::from
     //  Associated functions that are not methods are often used for constructors that will return a new instance of the struct.
@@ -145,14 +145,12 @@ impl Rectangle {
     fn square(size: u32) -> Rectangle {
         Rectangle {
             width: size,
-            height: size
+            height: size,
         }
     }
-    
+
     //  Each struct is allowed to have multiple impl blocks.
 }
-
-
 
 fn methods() {
     let rect1 = Rectangle {

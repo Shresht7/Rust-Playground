@@ -1,4 +1,4 @@
-//  This brings the std::io (standard input/output) library into scope
+//  This brings the std::io (standard input/output) and std::cmp::Ordering libraries into scope
 use std::cmp::Ordering;
 use std::io;
 

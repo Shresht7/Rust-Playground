@@ -25,6 +25,7 @@ fn main() {
     //  Trying to assign a value beyond the variables range will cause an integer overflow.
     //  Rust will panic if this happens in debug mode. However, in release builds, it will wrap around to the minimum values.
     //  in case of `u8` (0 - 255), 256 will become 0, 257 will become 1.
+    //  Read more https://doc.rust-lang.org/book/ch03-02-data-types.html#integer-overflow
 
     //  FLOATS
     //  ------
@@ -60,6 +61,7 @@ fn main() {
     //  char is Rust's most primitive character type
     let c = 'z';
     //  Rust's char is 4 bytes in size and represents a Unicode Scalar Value.
+    //  Note that char uses single quotes as opposed to double quotes for strings
 
     //  COMPOUND TYPES
     //  ==============

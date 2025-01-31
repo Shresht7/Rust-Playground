@@ -24,3 +24,4 @@
 - [Standard Library](https://doc.rust-lang.org/std/index.html)
 - [rustdoc](https://doc.rust-lang.org/rustdoc/index.html)
 - [YouTube Channel](https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA)
+- [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)

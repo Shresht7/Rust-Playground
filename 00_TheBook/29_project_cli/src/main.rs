@@ -1,6 +1,6 @@
 // $ cargo run -- searchstring example-filename.txt
 
-use std::env;
+use std::{env, fs};
 
 fn main() {
     // Retrieve the command-line arguments that were passed into this program
@@ -13,4 +13,10 @@ fn main() {
     // cargo run -- needle haystack
     println!("Searching for {query}");
     println!("In file {filepath}");
+
+    // Read file contents
+    let contents = fs::read_to_string(filepath).expect("Should have been able to read the file");
+
+    // cargo run -- needle poem.txt
+    println!("With text:\n{contents}");
 }

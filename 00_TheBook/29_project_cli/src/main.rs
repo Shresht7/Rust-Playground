@@ -1,6 +1,6 @@
 // $ cargo run -- searchstring example-filename.txt
 
-use std::{env, fs, process};
+use std::{env, error, fs, process};
 
 fn main() {
     // Retrieve the command-line arguments that were passed into this program
@@ -14,12 +14,18 @@ fn main() {
     println!("Searching for {}", config.query);
     println!("In file {}", config.filepath);
 
-    // Read file contents
-    let contents =
-        fs::read_to_string(config.filepath).expect("Should have been able to read the file");
+    if let Err(e) = run(config) {
+        println!("Application Error: {e}");
+        process::exit(1);
+    }
+}
 
+fn run(config: Config) -> Result<(), Box<dyn error::Error>> {
+    // Read file contents
+    let contents = fs::read_to_string(config.filepath)?;
     // cargo run -- needle poem.txt
     println!("With text:\n{contents}");
+    Ok(())
 }
 
 struct Config {

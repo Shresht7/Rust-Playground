@@ -14,6 +14,7 @@
 - [Rustlings](https://github.com/rust-lang/rustlings)
 - [Rust CLI Book](https://rust-cli.github.io/book/)
 - [Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/)
+- [Rust Fuzz Book](https://rust-fuzz.github.io/book/introduction.html)
 
 ## Links
 

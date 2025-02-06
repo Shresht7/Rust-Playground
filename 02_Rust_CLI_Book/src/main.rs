@@ -12,8 +12,10 @@ struct Cli {
 }
 
 fn main() -> Result<()> {
+    env_logger::init();
     let args = Cli::parse();
 
+    log::info!("Opening file: {}", args.path.display());
     let file = std::fs::File::open(&args.path).with_context(|| {
         format!(
             "Could not open file {}",
@@ -24,6 +26,7 @@ fn main() -> Result<()> {
 
     let mut writer = BufWriter::new(io::stdout().lock());
 
+    log::debug!("Starting scan loop...");
     loop {
         let mut buffer = String::new();
         let n = reader
@@ -33,9 +36,11 @@ fn main() -> Result<()> {
             break;
         }
         if buffer.contains(&args.pattern) {
+            log::debug!("Found pattern in line: {}", buffer.trim_end());
             write!(writer, "{}", buffer)?;
         }
     }
 
+    log::info!("Finished processing file");
     Ok(())
 }

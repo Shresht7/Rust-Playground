@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
 use clap::Parser;
-use std::io::{BufRead, BufReader};
+use std::io::{self, BufRead, BufReader, BufWriter, Write};
 
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
@@ -22,6 +22,8 @@ fn main() -> Result<()> {
     })?;
     let mut reader = BufReader::new(file);
 
+    let mut writer = BufWriter::new(io::stdout().lock());
+
     loop {
         let mut buffer = String::new();
         let n = reader
@@ -31,7 +33,7 @@ fn main() -> Result<()> {
             break;
         }
         if buffer.contains(&args.pattern) {
-            print!("{}", buffer);
+            write!(writer, "{}", buffer)?;
         }
     }
 

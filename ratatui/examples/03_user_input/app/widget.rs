@@ -3,7 +3,7 @@ use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
     style::Stylize,
-    widgets::{Block, Borders, Padding, Paragraph, Widget},
+    widgets::{Block, Borders, List, ListItem, Padding, Paragraph, Widget},
 };
 
 impl super::App {
@@ -17,12 +17,22 @@ impl Widget for &super::App {
     where
         Self: Sized,
     {
-        let layout = Layout::vertical([Constraint::Length(3)]).split(area);
+        let layout = Layout::vertical([Constraint::Length(3), Constraint::Fill(1)]).split(area);
+
         let block = Block::bordered()
             .title(" label ".dark_gray())
             .padding(Padding::horizontal(2))
             .borders(Borders::ALL);
         let text = Paragraph::new(self.value.clone()).block(block);
         text.render(layout[0], buf);
+
+        let history_block = Block::new().padding(Padding::horizontal(3));
+        let history_items: Vec<ListItem> = self
+            .history
+            .iter()
+            .map(|item| ListItem::new(item.clone()))
+            .collect();
+        let history = List::new(history_items).block(history_block);
+        history.render(layout[1], buf);
     }
 }

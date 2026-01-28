@@ -5,6 +5,7 @@ mod widget;
 
 pub struct App {
     value: String,
+    history: Vec<String>,
     /// Whether the application should exit
     should_exit: bool,
 }
@@ -13,6 +14,7 @@ impl Default for App {
     fn default() -> Self {
         Self {
             value: String::new(),
+            history: Vec::new(),
             should_exit: false,
         }
     }
@@ -40,6 +42,15 @@ impl App {
 
     fn pop_char(&mut self) {
         self.value.pop();
+    }
+
+    fn submit(&mut self) {
+        self.history.push(self.value.clone());
+        self.clear();
+    }
+
+    fn clear(&mut self) {
+        self.value = String::new();
     }
 
     fn exit(&mut self) {

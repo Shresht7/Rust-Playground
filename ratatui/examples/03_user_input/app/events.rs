@@ -18,6 +18,7 @@ impl super::App {
             KeyCode::Esc => self.exit(),
             KeyCode::Char(c) => self.push_char(c),
             KeyCode::Backspace => self.pop_char(),
+            KeyCode::Enter => self.submit(),
             _ => {}
         }
         Ok(())

@@ -2,17 +2,23 @@ use std::io;
 
 use crossterm::event::{self, Event, KeyCode, KeyEvent};
 use ratatui::{
-    DefaultTerminal, Frame, buffer::Buffer, layout::Rect, style::Stylize, text::Text,
-    widgets::Widget,
+    DefaultTerminal, Frame,
+    buffer::Buffer,
+    layout::Rect,
+    widgets::{Block, Borders, Paragraph, Widget},
 };
 
 pub struct App {
+    input: Input,
     should_quit: bool,
 }
 
 impl App {
     pub fn new() -> Self {
-        Self { should_quit: false }
+        Self {
+            input: Input::new(),
+            should_quit: false,
+        }
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
@@ -31,6 +37,12 @@ impl App {
     fn update(&mut self, msg: Msg) {
         match msg {
             Msg::Quit => self.quit(),
+            Msg::Input(c) => {
+                self.input.push(c);
+            }
+            Msg::Backspace => {
+                self.input.pop();
+            }
             Msg::None => {}
         }
     }
@@ -48,6 +60,8 @@ impl App {
     fn handle_key_events(&self, key: KeyEvent) -> io::Result<Msg> {
         match key.code {
             KeyCode::Esc => Ok(Msg::Quit),
+            KeyCode::Char(c) => Ok(Msg::Input(c)),
+            KeyCode::Backspace => Ok(Msg::Backspace),
             _ => Ok(Msg::None),
         }
     }
@@ -62,12 +76,45 @@ impl Widget for &App {
     where
         Self: Sized,
     {
-        let text = Text::from("Hello World").slow_blink();
-        text.render(area, buf);
+        self.input.render(area, buf);
     }
 }
 
 pub enum Msg {
     None,
     Quit,
+    Input(char),
+    Backspace,
+}
+
+pub struct Input {
+    value: String,
+}
+
+impl Input {
+    pub fn new() -> Self {
+        Self {
+            value: String::new(),
+        }
+    }
+
+    pub fn push(&mut self, c: char) {
+        self.value.push(c);
+    }
+
+    pub fn pop(&mut self) {
+        self.value.pop();
+    }
+}
+
+impl Widget for &Input {
+    fn render(self, area: Rect, buf: &mut Buffer)
+    where
+        Self: Sized,
+    {
+        let block = Block::bordered().borders(Borders::ALL);
+        Paragraph::new(self.value.clone())
+            .block(block)
+            .render(area, buf);
+    }
 }

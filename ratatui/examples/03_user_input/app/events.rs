@@ -16,6 +16,7 @@ impl super::App {
     fn handle_key_event(&mut self, event: KeyEvent) -> std::io::Result<()> {
         match event.code {
             KeyCode::Esc => self.exit(),
+            KeyCode::Char(c) => self.push_char(c),
             _ => {}
         }
         Ok(())

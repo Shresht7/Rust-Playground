@@ -34,6 +34,10 @@ impl App {
         Ok(())
     }
 
+    fn push_char(&mut self, c: char) {
+        self.value.push(c);
+    }
+
     fn exit(&mut self) {
         self.should_exit = true;
     }

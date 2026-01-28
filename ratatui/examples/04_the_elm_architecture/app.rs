@@ -5,9 +5,13 @@ use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
-    text::Span,
-    widgets::{Block, Borders, List, ListItem, Paragraph, Widget},
+    widgets::Widget,
 };
+
+mod input;
+use input::Input;
+mod messages;
+use messages::Messages;
 
 pub struct App {
     input: Input,
@@ -69,7 +73,7 @@ impl App {
             KeyCode::Esc => Ok(Msg::Quit),
             KeyCode::Char(c) => Ok(Msg::Input(c)),
             KeyCode::Backspace => Ok(Msg::Backspace),
-            KeyCode::Enter => Ok(Msg::Submit(self.input.value.clone())),
+            KeyCode::Enter => Ok(Msg::Submit(self.input.value())),
             _ => Ok(Msg::None),
         }
     }
@@ -98,64 +102,4 @@ pub enum Msg {
     Input(char),
     Backspace,
     Submit(String),
-}
-
-pub struct Input {
-    value: String,
-}
-
-impl Input {
-    pub fn new() -> Self {
-        Self {
-            value: String::new(),
-        }
-    }
-
-    pub fn push(&mut self, c: char) {
-        self.value.push(c);
-    }
-
-    pub fn pop(&mut self) {
-        self.value.pop();
-    }
-
-    pub fn clear(&mut self) {
-        self.value.clear();
-    }
-}
-
-impl Widget for &Input {
-    fn render(self, area: Rect, buf: &mut Buffer)
-    where
-        Self: Sized,
-    {
-        let block = Block::bordered().borders(Borders::ALL);
-        Paragraph::new(self.value.clone())
-            .block(block)
-            .render(area, buf);
-    }
-}
-
-pub struct Messages {
-    list: Vec<String>,
-}
-
-impl Messages {
-    pub fn new() -> Self {
-        Self { list: Vec::new() }
-    }
-
-    pub fn push(&mut self, msg: String) {
-        self.list.push(msg);
-    }
-}
-
-impl Widget for &Messages {
-    fn render(self, area: Rect, buf: &mut Buffer)
-    where
-        Self: Sized,
-    {
-        let list_items = self.list.iter().map(|item| ListItem::new(Span::from(item)));
-        List::new(list_items).render(area, buf);
-    }
 }

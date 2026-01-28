@@ -11,7 +11,7 @@ impl Widget for &super::App {
     where
         Self: Sized,
     {
-        let text = Text::from("hello");
+        let text = Text::from(self.value.clone());
         text.render(area, buf);
     }
 }

@@ -4,12 +4,14 @@ use crossterm::event::{self, Event, KeyCode, KeyEvent};
 use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
-    layout::Rect,
-    widgets::{Block, Borders, Paragraph, Widget},
+    layout::{Constraint, Layout, Rect},
+    text::Span,
+    widgets::{Block, Borders, List, ListItem, Paragraph, Widget},
 };
 
 pub struct App {
     input: Input,
+    messages: Messages,
     should_quit: bool,
 }
 
@@ -17,6 +19,7 @@ impl App {
     pub fn new() -> Self {
         Self {
             input: Input::new(),
+            messages: Messages::new(),
             should_quit: false,
         }
     }
@@ -43,6 +46,10 @@ impl App {
             Msg::Backspace => {
                 self.input.pop();
             }
+            Msg::Submit(msg) => {
+                self.input.clear();
+                self.messages.push(msg)
+            }
             Msg::None => {}
         }
     }
@@ -62,6 +69,7 @@ impl App {
             KeyCode::Esc => Ok(Msg::Quit),
             KeyCode::Char(c) => Ok(Msg::Input(c)),
             KeyCode::Backspace => Ok(Msg::Backspace),
+            KeyCode::Enter => Ok(Msg::Submit(self.input.value.clone())),
             _ => Ok(Msg::None),
         }
     }
@@ -76,7 +84,11 @@ impl Widget for &App {
     where
         Self: Sized,
     {
-        self.input.render(area, buf);
+        let [area_input, area_messages] =
+            Layout::vertical([Constraint::Length(3), Constraint::Fill(1)]).areas(area);
+
+        self.input.render(area_input, buf);
+        self.messages.render(area_messages, buf);
     }
 }
 
@@ -85,6 +97,7 @@ pub enum Msg {
     Quit,
     Input(char),
     Backspace,
+    Submit(String),
 }
 
 pub struct Input {
@@ -105,6 +118,10 @@ impl Input {
     pub fn pop(&mut self) {
         self.value.pop();
     }
+
+    pub fn clear(&mut self) {
+        self.value.clear();
+    }
 }
 
 impl Widget for &Input {
@@ -116,5 +133,29 @@ impl Widget for &Input {
         Paragraph::new(self.value.clone())
             .block(block)
             .render(area, buf);
+    }
+}
+
+pub struct Messages {
+    list: Vec<String>,
+}
+
+impl Messages {
+    pub fn new() -> Self {
+        Self { list: Vec::new() }
+    }
+
+    pub fn push(&mut self, msg: String) {
+        self.list.push(msg);
+    }
+}
+
+impl Widget for &Messages {
+    fn render(self, area: Rect, buf: &mut Buffer)
+    where
+        Self: Sized,
+    {
+        let list_items = self.list.iter().map(|item| ListItem::new(Span::from(item)));
+        List::new(list_items).render(area, buf);
     }
 }

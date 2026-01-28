@@ -38,6 +38,10 @@ impl App {
         self.value.push(c);
     }
 
+    fn pop_char(&mut self) {
+        self.value.pop();
+    }
+
     fn exit(&mut self) {
         self.should_exit = true;
     }

@@ -17,6 +17,7 @@ impl super::App {
         match event.code {
             KeyCode::Esc => self.exit(),
             KeyCode::Char(c) => self.push_char(c),
+            KeyCode::Backspace => self.pop_char(),
             _ => {}
         }
         Ok(())

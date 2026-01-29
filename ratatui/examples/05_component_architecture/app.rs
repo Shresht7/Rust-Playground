@@ -1,15 +1,34 @@
 use std::io;
 
 use crossterm::event::{self, Event, KeyCode, KeyEvent};
-use ratatui::{DefaultTerminal, Frame, buffer::Buffer, layout::Rect, text::Span, widgets::Widget};
+use ratatui::{
+    DefaultTerminal, Frame,
+    buffer::Buffer,
+    layout::{Constraint, Layout, Rect},
+    widgets::Widget,
+};
+
+mod component;
+mod input;
+use input::Input;
+mod messages;
+use messages::Messages;
+
+use crate::app::component::Component;
 
 pub struct App {
+    input: Input,
+    messages: Messages,
     should_quit: bool,
 }
 
 impl App {
     pub fn new() -> Self {
-        Self { should_quit: false }
+        Self {
+            input: Input::new(),
+            messages: Messages::new(),
+            should_quit: false,
+        }
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
@@ -32,7 +51,7 @@ impl App {
         }
     }
 
-    fn handle_events(&self) -> io::Result<Msg> {
+    fn handle_events(&mut self) -> io::Result<Msg> {
         match event::read()? {
             Event::Key(key_event) if key_event.is_press() => {
                 return self.handle_key_events(key_event);
@@ -42,7 +61,12 @@ impl App {
         Ok(Msg::None)
     }
 
-    fn handle_key_events(&self, key: KeyEvent) -> io::Result<Msg> {
+    fn handle_key_events(&mut self, key: KeyEvent) -> io::Result<Msg> {
+        if let Some(action) = self.input.handle_key_events(key) {
+            match action {
+                input::Action::Submit(s) => self.messages.push(s),
+            }
+        }
         match key.code {
             KeyCode::Esc => Ok(Msg::Quit),
             _ => Ok(Msg::None),
@@ -59,8 +83,10 @@ impl Widget for &App {
     where
         Self: Sized,
     {
-        let text = Span::from("Hello World");
-        text.render(area, buf);
+        let [area_input, area_messages] =
+            Layout::vertical([Constraint::Length(3), Constraint::Fill(1)]).areas(area);
+        self.input.render(area_input, buf);
+        self.messages.render(area_messages, buf);
     }
 }
 

@@ -61,7 +61,9 @@ impl App {
         match key.code {
             KeyCode::Esc => Ok(Msg::Quit),
             _ => {
-                self.form.handle_event(key);
+                if self.form.handle_event(key) {
+                    return Ok(Msg::Quit);
+                }
                 Ok(Msg::None)
             }
         }

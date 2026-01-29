@@ -29,10 +29,23 @@ impl Form {
         self.fields[self.selected_index].focus();
     }
 
-    pub fn handle_event(&mut self, event: KeyEvent) {
+    pub fn handle_event(&mut self, event: KeyEvent) -> bool {
         match event.code {
-            KeyCode::Tab => self.next_focus(),
-            _ => self.fields[self.selected_index].handle_event(event),
+            KeyCode::Tab => {
+                self.next_focus();
+                false
+            }
+            KeyCode::Enter => {
+                if self.selected_index == self.fields.len() - 1 {
+                    return true;
+                }
+                self.next_focus();
+                false
+            }
+            _ => {
+                self.fields[self.selected_index].handle_event(event);
+                false
+            }
         }
     }
 }

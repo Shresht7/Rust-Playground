@@ -38,6 +38,10 @@ impl Input {
             _ => {}
         }
     }
+
+    pub fn value(&self) -> &str {
+        &self.value
+    }
 }
 
 impl Widget for &Input {

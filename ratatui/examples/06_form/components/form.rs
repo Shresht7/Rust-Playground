@@ -48,6 +48,10 @@ impl Form {
             }
         }
     }
+
+    pub fn get_values(&self) -> Vec<String> {
+        self.fields.iter().map(|f| f.value().to_string()).collect()
+    }
 }
 
 impl Widget for &Form {

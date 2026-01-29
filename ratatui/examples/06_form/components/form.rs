@@ -1,3 +1,4 @@
+use crossterm::event::{KeyCode, KeyEvent};
 use ratatui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
@@ -8,11 +9,31 @@ use crate::components::Input;
 
 pub struct Form {
     fields: Vec<Input>,
+    selected_index: usize,
 }
 
 impl Form {
-    pub fn new(fields: Vec<Input>) -> Self {
-        Self { fields }
+    pub fn new(mut fields: Vec<Input>) -> Self {
+        if !fields.is_empty() {
+            fields[0].focus();
+        }
+        Self {
+            fields,
+            selected_index: 0,
+        }
+    }
+
+    pub fn next_focus(&mut self) {
+        self.fields[self.selected_index].blur();
+        self.selected_index = (self.selected_index + 1) % self.fields.len();
+        self.fields[self.selected_index].focus();
+    }
+
+    pub fn handle_event(&mut self, event: KeyEvent) {
+        match event.code {
+            KeyCode::Tab => self.next_focus(),
+            _ => self.fields[self.selected_index].handle_event(event),
+        }
     }
 }
 

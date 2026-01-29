@@ -48,7 +48,7 @@ impl App {
         frame.render_widget(self, frame.area());
     }
 
-    fn handle_events(&self) -> io::Result<Msg> {
+    fn handle_events(&mut self) -> io::Result<Msg> {
         match event::read()? {
             Event::Key(key_event) if key_event.is_press() => {
                 return self.handle_key_events(key_event);
@@ -57,10 +57,13 @@ impl App {
         }
     }
 
-    fn handle_key_events(&self, key: KeyEvent) -> io::Result<Msg> {
+    fn handle_key_events(&mut self, key: KeyEvent) -> io::Result<Msg> {
         match key.code {
             KeyCode::Esc => Ok(Msg::Quit),
-            _ => Ok(Msg::None),
+            _ => {
+                self.form.handle_event(key);
+                Ok(Msg::None)
+            }
         }
     }
 

@@ -5,24 +5,21 @@ use ratatui::{
     DefaultTerminal, Frame,
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
-    widgets::Widget,
+    style::Stylize,
+    widgets::{Paragraph, Widget},
 };
 
-use crate::components::Input;
+use crate::components::Form;
 
 pub struct App {
-    name: Input,
-    email: Input,
-    password: Input,
+    form: Form,
     should_quit: bool,
 }
 
 impl App {
     pub fn new() -> Self {
         Self {
-            name: Input::new("Name"),
-            email: Input::new("Email"),
-            password: Input::new("Password"),
+            form: Form::new(),
             should_quit: false,
         }
     }
@@ -73,15 +70,21 @@ impl Widget for &App {
     where
         Self: Sized,
     {
-        let form_layout = Layout::vertical([
-            Constraint::Length(3),
-            Constraint::Length(3),
-            Constraint::Length(3),
+        let main = Layout::vertical([Constraint::Length(1), Constraint::Fill(1)])
+            .spacing(4)
+            .split(area);
+
+        Paragraph::new(" FORM ".bold())
+            .centered()
+            .render(main[0], buf);
+
+        let layout = Layout::horizontal([
+            Constraint::Fill(1),
+            Constraint::Min(40),
+            Constraint::Fill(1),
         ])
-        .split(area);
-        self.name.render(form_layout[0], buf);
-        self.email.render(form_layout[1], buf);
-        self.password.render(form_layout[2], buf);
+        .split(main[1]);
+        self.form.render(layout[1], buf);
     }
 }
 

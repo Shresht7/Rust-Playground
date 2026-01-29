@@ -9,7 +9,7 @@ use ratatui::{
     widgets::{Paragraph, Widget},
 };
 
-use crate::components::Form;
+use crate::components::{Form, Input};
 
 pub struct App {
     form: Form,
@@ -19,7 +19,11 @@ pub struct App {
 impl App {
     pub fn new() -> Self {
         Self {
-            form: Form::new(),
+            form: Form::new(vec![
+                Input::new("Name"),
+                Input::new("Email"),
+                Input::new("Password"),
+            ]),
             should_quit: false,
         }
     }

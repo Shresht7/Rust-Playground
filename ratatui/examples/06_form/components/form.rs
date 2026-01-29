@@ -7,18 +7,12 @@ use ratatui::{
 use crate::components::Input;
 
 pub struct Form {
-    name: Input,
-    email: Input,
-    password: Input,
+    fields: Vec<Input>,
 }
 
 impl Form {
-    pub fn new() -> Self {
-        Self {
-            name: Input::new("Name"),
-            email: Input::new("Email"),
-            password: Input::new("Password"),
-        }
+    pub fn new(fields: Vec<Input>) -> Self {
+        Self { fields }
     }
 }
 
@@ -27,14 +21,11 @@ impl Widget for &Form {
     where
         Self: Sized,
     {
-        let form_layout = Layout::vertical([
-            Constraint::Length(3),
-            Constraint::Length(3),
-            Constraint::Length(3),
-        ])
-        .split(area);
-        self.name.render(form_layout[0], buf);
-        self.email.render(form_layout[1], buf);
-        self.password.render(form_layout[2], buf);
+        let form_layout =
+            Layout::vertical(self.fields.iter().map(|_| Constraint::Length(3))).split(area);
+        self.fields
+            .iter()
+            .enumerate()
+            .for_each(|(i, f)| f.render(form_layout[i], buf));
     }
 }

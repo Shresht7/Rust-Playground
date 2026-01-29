@@ -1,6 +1,7 @@
 use std::io;
 
 mod app;
+mod components;
 use app::App;
 
 fn main() -> io::Result<()> {

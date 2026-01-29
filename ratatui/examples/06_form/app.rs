@@ -1,15 +1,30 @@
 use std::io;
 
 use crossterm::event::{self, Event, KeyCode, KeyEvent};
-use ratatui::{DefaultTerminal, Frame, buffer::Buffer, layout::Rect, text::Span, widgets::Widget};
+use ratatui::{
+    DefaultTerminal, Frame,
+    buffer::Buffer,
+    layout::{Constraint, Layout, Rect},
+    widgets::Widget,
+};
+
+use crate::components::Input;
 
 pub struct App {
+    name: Input,
+    email: Input,
+    password: Input,
     should_quit: bool,
 }
 
 impl App {
     pub fn new() -> Self {
-        Self { should_quit: false }
+        Self {
+            name: Input::new("Name"),
+            email: Input::new("Email"),
+            password: Input::new("Password"),
+            should_quit: false,
+        }
     }
 
     pub fn run(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
@@ -58,8 +73,15 @@ impl Widget for &App {
     where
         Self: Sized,
     {
-        let text = Span::from("Hello World");
-        text.render(area, buf);
+        let form_layout = Layout::vertical([
+            Constraint::Length(3),
+            Constraint::Length(3),
+            Constraint::Length(3),
+        ])
+        .split(area);
+        self.name.render(form_layout[0], buf);
+        self.email.render(form_layout[1], buf);
+        self.password.render(form_layout[2], buf);
     }
 }
 

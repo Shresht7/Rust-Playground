@@ -33,7 +33,7 @@ impl<'r> FromRequest<'r> for SomeTypeGuard {
 }
 
 #[get("/guarded/<param>")]
-fn guarded_route_handler(param: isize, g: SomeTypeGuard) -> String {
+fn guarded_route_handler(param: isize, _g: SomeTypeGuard) -> String {
     format!("Guarded route with param: {}", param)
 }
 
@@ -110,7 +110,7 @@ impl<'r> FromRequest<'r> for AdminUser {
 
 #[get("/admin")]
 fn admin(admin: AdminUser) -> String {
-    format!("Welcome, admin user: {}", admin.name)
+    format!("Welcome, admin user: {} (ID: {})", admin.name, admin.id)
 }
 
 // ## Fallible Guards
@@ -118,12 +118,12 @@ fn admin(admin: AdminUser) -> String {
 // When a guard `T` fails or forwards, `Option<T>` will be None. If a guard `T` fails with an error `E`, `Result<T, E>` will be Err(E).
 
 #[get("/admin", rank = 2)]
-fn admin_panel_user(user: Option<User>) -> Result<&'static str, Redirect> {
+fn admin_panel_user(user: Option<User>) -> Result<String, Redirect> {
     match user {
         // If the user guard forwards or fails, the `Option<User>` will be None. In this case, we redirect the user to the login page.
         None => Err(Redirect::to(uri!(login))),
         // If the user guard succeeds, we welcome the user to the admin panel, even though they do not have access to it.
-        Some(user) => Ok(format!("Welcome, regular user: {}. You do not have access to the admin panel.", user.name).as_str()),
+        Some(user) => Ok(format!("Welcome, regular user: {} (ID: {}). You do not have access to the admin panel.", user.name, user.id)),
     }
 }
 

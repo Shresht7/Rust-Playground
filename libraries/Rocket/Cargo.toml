@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 rocket = { version = "0.5.1", features = ["secrets", "json"] }
+rocket_dyn_templates = "0.2.0"
 rocket_ws = "0.1.1"

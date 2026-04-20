@@ -77,6 +77,7 @@ fn json_part_two() -> (Status, (ContentType, &'static str)) {
 
 use rocket::fs::NamedFile;
 
+#[allow(dead_code)]
 #[derive(Responder)]
 enum Error {
     #[response(status = 500, content_type = "json")]

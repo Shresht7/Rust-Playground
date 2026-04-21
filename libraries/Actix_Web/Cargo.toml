@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 actix-web = { version = "4.13.0", features = ["openssl"] }
 openssl = "0.10.78"
+serde = { version = "1.0.228", features = ["derive"] }

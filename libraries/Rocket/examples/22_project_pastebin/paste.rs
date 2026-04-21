@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 const BASE62_CHARSET: &[u8] = b"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 /// A _probably_ unique paste ID
+#[derive(UriDisplayPath)]
 pub struct PasteId<'a>(Cow<'a, str>);
 
 impl PasteId<'_> {

@@ -1,7 +1,22 @@
 #[macro_use]
 extern crate rocket;
 
+#[get("/")]
+fn index() -> &'static str {
+    "
+    USAGE
+        
+        POST /
+
+            accepts raw data in the body of the request and responds with a URL of a page containing the body's contents
+
+        GET /<id>
+
+            retrieves the content for the paste with the id `<id>`
+    "
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build()
+    rocket::build().mount("/", routes![index])
 }

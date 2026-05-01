@@ -17,6 +17,8 @@ fn main() {
     showcase_drop_example().unwrap();
     showcase_iterator();
     showcase_impl_trait();
+    showcase_clone_and_copy();
+    showcase_supertraits();
 }
 
 struct Sheep {
@@ -477,4 +479,195 @@ fn showcase_impl_trait() {
     let singles = vec![-3, -2, 2, 3];
     let doubles = double_positives(&singles);
     assert_eq!(doubles.collect::<Vec<i32>>(), vec![4, 5]);
+}
+
+// ## 16.7 Clone and Copy
+
+// When dealing with resources, the default behaviour, in rust, is to transfer them during assigments or function calls.
+// However, sometimes, we need to make a copy of the resource instead of transferring it. This is where the `Clone` and `Copy` traits come into play.
+
+// The `Clone` traits allows us to create a copy of a resource by implementing the `clone` method. This is useful for types that manage resources, such as `String` or `Vec<T>`, which need to allocate memory on the heap.
+
+// ## Copy: Implicit Cloning
+
+// The `Copy` trait allows a type to be duplicated by simply coping bits, with no additional logic required.
+// When a type implements `Copy`, assignments and function calls will implicitly copy the value instead of moving it.
+
+// Important: `Copy` requries `Clone` - any type that implements `Copy` must also implement `Clone`. This is because `Copy` is defined as a subtrait:
+// `trait Copy: Clone {}`. The `Clone` implementation for `Copy` types simply copes the bits.
+
+// Not all types can implement `Copy`. A type can only be `Copy` if:
+// - All of its components are `Copy`
+// - It doesn't manage external resources (like heap memory, file-handles, etc)
+
+// A unit struct without resources.
+// Note: Copy requires Clone, so we must derive both
+#[derive(Debug, Clone, Copy)]
+struct Unit;
+
+// A tuple struct with resources that implements the `Clone` trait
+// This CANNOT be Copy because `Box<T>` is not Copy
+#[derive(Debug, Clone)]
+struct Pair(Box<i32>, Box<i32>);
+
+fn showcase_clone_and_copy() {
+    // Instantiate `Unit`
+    let unit = Unit;
+    // Copy `Unit` - this is an implicit copy, not a move!
+    // Because `Unit` implements `Copy`, the value is duplicated automatically
+    let copied_unit = unit;
+
+    // Both units can be used independently
+    println!("Original unit: {:?}, Copied unit: {:?}", unit, copied_unit);
+
+    // Instantiate `Pair`
+    let pair = Pair(Box::new(1), Box::new(2));
+    println!("Original pair: {:?}", pair);
+
+    // Move pair into `moved_pair`, moves resources
+    // Pair does not implement `Copy`, so this is a move
+    let moved_pair = pair;
+    println!("Moved pair: {:?}", moved_pair);
+
+    // Error! `pair` has lost is resources
+    // println!("Original pair: {:?}", pair);
+
+    // Clone `moved_pair` into `cloned_pair` (resources are included)
+    // Unlike Copy, Clone is explicit - we must call .clone()
+    let cloned_pair = moved_pair.clone();
+
+    // Drop the moved original pair std::mem::drop(moved_pair);
+    drop(moved_pair);
+
+    // Error! `moved_pair` has been dropped
+    // println!("Moved pair: {:?}", moved_pair);
+
+    // The result from `.clone()` can still be used
+    println!("Cloned pair: {:?}", cloned_pair);
+}
+
+// ## 16.8 Supertraits
+
+// Rust doesn't have "inheritance", but you can define a trait as being a superset of another trait.
+
+trait Person {
+    fn name(&self) -> String;
+}
+
+// Person is a supertrait of Studen
+// Implementing Student requires you to also implement Person
+trait Student: Person {
+    fn university(&self) -> String;
+}
+
+trait Programmer {
+    fn fav_language(&self) -> String;
+}
+
+// ComSciStudent is a subtrait of both Programmer and Student. Implementing ComSciStudent requries you to implement both Programmer and Student
+trait ComSciStudent: Programmer + Student {
+    fn git_username(&self) -> String;
+}
+
+fn comp_sci_student_greeting(student: &dyn ComSciStudent) -> String {
+    format!(
+        "My name is {} and I attend {}. My favorite language is {}. My Git Username is {}",
+        student.name(),
+        student.university(),
+        student.fav_language(),
+        student.git_username()
+    )
+}
+
+struct CSStudent {
+    name: String,
+    university: String,
+    fav_language: String,
+    git_username: String,
+}
+
+impl Programmer for CSStudent {
+    fn fav_language(&self) -> String {
+        self.fav_language.clone()
+    }
+}
+
+impl Student for CSStudent {
+    fn university(&self) -> String {
+        self.university.clone()
+    }
+}
+
+impl Person for CSStudent {
+    fn name(&self) -> String {
+        self.name.clone()
+    }
+}
+
+impl ComSciStudent for CSStudent {
+    fn git_username(&self) -> String {
+        self.git_username.clone()
+    }
+}
+
+fn showcase_supertraits() {
+    let student = CSStudent {
+        name: "Alice".to_string(),
+        university: "MIT".to_string(),
+        fav_language: "Rust".to_string(),
+        git_username: "alice123".to_string(),
+    };
+
+    println!("{}", comp_sci_student_greeting(&student));
+}
+
+// ## 16.9 Disambiguating overlapping traits
+
+// A type can implement may different traits. What if two traits both requrie the same name for a function?
+// For example, many traits might have a method named `get()`. They might even have different return types!
+
+// Becuase each trait implementation gets its own `impl` block, it's clear which trait's `get` method you're implementing.
+// You can use the Fully Qualified Syntax to disambiguate between them.
+
+trait UsernameWidget {
+    // Get the selected username out of this widget
+    fn get(&self) -> String;
+}
+
+trait AgeWidget {
+    // Get the select age out of this widget
+    fn get(&self) -> u32;
+}
+
+// A form with both a UsernameWidget and an AgeWidget
+struct Form {
+    username: String,
+    age: u8,
+}
+
+impl UsernameWidget for Form {
+    fn get(&self) -> String {
+        self.username.clone()
+    }
+}
+
+impl AgeWidget for Form {
+    fn get(&self) -> u32 {
+        self.age as u32
+    }
+}
+
+fn showcase_disambiguating_overlapping_traits() {
+    let form = Form {
+        username: "alice123".to_string(),
+        age: 30,
+    };
+
+    // If you uncomment this line, you'll get an error saying "multiple `get` found".
+    // Because, after all, there are multiple methods named `get`
+    // println!("{}", form.get());
+
+    let username = <Form as UsernameWidget>::get(&form);
+    let age = <Form as AgeWidget>::get(&form);
+    println!("Username: {}, Age: {}", username, age);
 }

@@ -84,3 +84,11 @@ fn main() {
     let integer = Point { x: 5, y: 10 };
     let float = Point { x: 1.0, y: 4.0 };
 }
+
+// Using generic types won't make your program run any slower than it would with concrete types.
+
+// Rust accomplishes this by performing monomorphization of the code using generics at compile time.
+// Monomorphization is the process of turning generic code into specific code by filling in the concrete types that are used when compiled.
+// The compiler looks at all the places where the generic code is called and generates code for the concrete types the generic code is called with.
+// Because Rust compiles generic code into code that specifies the type in each instance, we pay no runtime costs for using generics.
+// When the code runs, it performs just as it would if we had duplicated each definition by hand. The process of monomorphization makes Rust's generics extremely efficient at runtime
